@@ -1,7 +1,6 @@
 language: java
 sudo: false
 dist: trusty
-script: mvn -Psafer -Pintegration -B -e -T 1C -Dcheckstyle.consoleOutput=false verify
 jdk: oraclejdk8
 
 before_install:
@@ -18,16 +17,21 @@ addons:
 cache:
   directories:
   - $HOME/.m2
+  
+before_cache:
+  - rm -f $HOME/.m2/com/torodb
 
 before_script:
 - export GIT_BRANCH=$TRAVIS_BRANCH
+
+script: mvn -Psafer -Pintegration -B -e -T 1C -Dcheckstyle.consoleOutput=false verify
 
 before_deploy:
 - echo "<settings><servers><server><id>ossrh-snapshot</id><username>\${env.MAVEN_DEPLOY_USER}</username><password>\${env.MAVEN_DEPLOY_PASS}</password></server><server><id>ossrh-release</id><username>\${env.MAVEN_DEPLOY_USER}</username><password>\${env.MAVEN_DEPLOY_PASS}</password></server></servers></settings>" > ~/settings.xml
   
 deploy:
 - provider: script
-  script: mvn -B -e -T 1C -Pdeploy -DskipTests=true deploy --settings ~/settings.xml
+  script: bash deploy-nexus.sh
   skip_cleanup: true
   on:
     repo: gortiz/build-tools
