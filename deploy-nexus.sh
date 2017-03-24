@@ -5,7 +5,7 @@ mvn -B -e -T 1C -Pdeploy -DskipTests=true deploy --settings ~/settings.xml -f bu
 
 error=$?
 if [[ $error -eq 0 ]]; then 
-    mvn -B -e -T 1C -Pdeploy -DskipTests=true deploy --settings ~/settings.xml -f build-resources/pom.xml; 
+    mvn -B -e -T 1C -Pdeploy -DskipTests=true deploy --settings ~/settings.xml -f parent-pom/pom.xml; 
     error=$?;
 else
     echo "Aborted parent pom deploy because build resources deploy failed";
