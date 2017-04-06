@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Appenders>
+        <Console name="WITH_TRACE" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{hh:mm:ss.SSS} %highlight{%-5level} %-30.-30replace{'%t'}{\s}{-} %-30.30logger{1.} - %msg%n"/>
+        </Console>
+        <Console name="WITHOUT_TRACE" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{hh:mm:ss.SSS} %highlight{%-5level} %-30.-30replace{'%t'}{\s}{-} %-30.30logger{1.} - %msg%n%throwable{short.message}%n"/>
+        </Console>
+        <Async name="ASYNC">
+            <AppenderRef ref="router"/>
+        </Async>
+        
+        <Routing name="router">
+            <Routes>
+                <Script name="RoutingInit" language="JavaScript">
+                    <![CDATA[
+                        logEvent.getLevel();
+                    ]]>
+                </Script>
+                <Route ref="WITHOUT_TRACE"/>
+                <Route key="ERROR" ref="WITH_TRACE"/>
+                <Route key="WARN" ref="WITH_TRACE"/>
+            </Routes>
+        </Routing>
+    </Appenders>
+    <Loggers>
+        <!-- 8kData & ToroDB code -->
+
+        <Logger name="com.torodb" level="DEBUG" additivity="false">
+            <AppenderRef ref="ASYNC" />
+        </Logger>
+        
+        <!-- Root -->
+
+        <Root level="WARN">
+            <AppenderRef ref="ASYNC"/>
+        </Root>
+    </Loggers>
+</Configuration>
