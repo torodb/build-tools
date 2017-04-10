@@ -397,21 +397,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>best-practices</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <fail>false</fail>
-                            <rules>
-                                <reactorModuleConvergence>
-                                    <message>The reactor is not valid</message>
-                                    <!--<ignoreModuleDependencies>true</ignoreModuleDependencies>-->
-                                </reactorModuleConvergence>
-                            </rules>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>strict-dependencies-warning</id>
                         <goals>
                             <goal>enforce</goal>
