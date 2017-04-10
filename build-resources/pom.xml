@@ -7,8 +7,35 @@
     <packaging>jar</packaging>
     
     <name>ToroDB: Build Resources</name>
-    <description>A project used to store resources and tools that the build
-        process can import as a dependency</description>
+    <description>
+        A project used to store resources and tools that the build process can import as a 
+        dependency
+    </description>
+    <url>http://www.torodb.com</url>
+    <inceptionYear>2016</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://opensource.org/licenses/Apache-2.0</url>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>8Kdata Technology</name>
+        <url>www.8kdata.com</url>
+    </organization>
+    
+    <developers>
+        <developer>
+            <id>torodb.com</id>
+            <name>ToroDB Project Contributors</name>
+            <email>torodb@8kdata.com</email>
+            <url>https://github.com/torodb/</url>
+            <organization>The ToroDB Project</organization>
+            <organizationUrl>http://torodb.com</organizationUrl>
+        </developer>
+    </developers>
     
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -80,4 +107,10 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:torodb/build-tools.git</connection>
+        <developerConnection>scm:git:git@github.com:torodb/build-tools.git</developerConnection>
+        <url>git@github.com:torodb/build-tools.git</url>
+    </scm>
 </project>
