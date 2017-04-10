@@ -173,16 +173,6 @@
                 <artifactId>bson</artifactId>
                 <version>${mongodriver.version}</version>
             </dependency>
-<!--            <dependency>
-                <groupId>org.mongodb</groupId>
-                <artifactId>mongodb-driver-core</artifactId>
-                <version>${mongodriver.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.mongodb</groupId>
-                <artifactId>mongo-java-driver</artifactId>
-                <version>${mongodriver.version}</version>
-            </dependency>-->
             
             <dependency>
                 <groupId>org.jooq</groupId>
