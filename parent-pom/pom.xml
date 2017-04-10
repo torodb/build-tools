@@ -99,12 +99,18 @@
                 <version>2.8.1</version>
             </dependency>
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.24</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <type>test-jar</type>
                 <version>2.8.1</version>
                 <scope>test</scope>
             </dependency>
+            
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -179,6 +185,17 @@
             </dependency>-->
             
             <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>3.8.7</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-meta</artifactId>
+                <version>3.8.7</version>
+            </dependency>
+            
+            <dependency>
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
                 <version>3.0.1</version>
@@ -198,6 +215,27 @@
                 <version>4.12</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.0.0-M4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-runner</artifactId>
+                <version>1.0.0-M4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.0.0-M4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>5.0.0-M4</version>
+            </dependency>
+            
             <dependency>
                 <groupId>com.google.truth</groupId>
                 <artifactId>truth</artifactId>
@@ -362,13 +400,40 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>best-practices</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <fail>false</fail>
+                            <rules>
+                                <reactorModuleConvergence>
+                                    <message>The reactor is not valid</message>
+                                    <!--<ignoreModuleDependencies>true</ignoreModuleDependencies>-->
+                                </reactorModuleConvergence>
+                            </rules>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>strict-dependencies-warning</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <fail>false</fail>
+                            <rules>
+                                <dependencyConvergence/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>enforce-dependencies</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
                             <rules>
-                                <dependencyConvergence/>
+                                <requireUpperBoundDeps/>
                                 <requireReleaseDeps>
                                     <message>Artifacts must not depend on external snapshot!</message>
                                     <excludes>
