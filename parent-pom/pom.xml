@@ -54,7 +54,7 @@
         <torodb.build.resources.version>1.0.1-SNAPSHOT</torodb.build.resources.version>
         
         <mongodriver.version>3.4.1</mongodriver.version>
-        <akka.version>2.4.17</akka.version>
+        <akka.version>2.5.0</akka.version>
         
         <!-- SonarQube properties -->
         <sonar.projectName>ToroDB</sonar.projectName>
