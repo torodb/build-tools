@@ -25,6 +25,13 @@
     <url>http://www.torodb.com</url>
     <inceptionYear>2014</inceptionYear>
 
+    <licenses>
+        <license>
+            <name>Apache License 2.0</name>
+            <url>http://opensource.org/licenses/Apache-2.0</url>
+        </license>
+    </licenses>
+
     <organization>
         <name>8Kdata Technology</name>
         <url>www.8kdata.com</url>
@@ -722,5 +729,11 @@
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
         </repository>
     </distributionManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:torodb/build-tools.git</connection>
+        <developerConnection>scm:git:git@github.com:torodb/build-tools.git</developerConnection>
+        <url>git@github.com:torodb/build-tools.git</url>
+    </scm>
 
 </project>
