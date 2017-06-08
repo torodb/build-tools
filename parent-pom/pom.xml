@@ -423,6 +423,7 @@
                                 <requireReleaseDeps>
                                     <message>Artifacts must not depend on external snapshot!</message>
                                     <excludes>
+                                        <exclude>com.eightkdata*:*</exclude>
                                         <exclude>com.8kdata*:*</exclude>
                                         <exclude>com.torodb*:*</exclude>
                                     </excludes>
