@@ -7,7 +7,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.torodb</groupId>
     <artifactId>parent-pom</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>pom</packaging>
 
     <prerequisites>
@@ -51,10 +51,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <torodb.build.resources.version>1.0.0</torodb.build.resources.version>
+        <torodb.build.resources.version>1.0.1-SNAPSHOT</torodb.build.resources.version>
         
         <mongodriver.version>3.4.1</mongodriver.version>
-        <akka.version>2.4.17</akka.version>
+        <akka.version>2.5.2</akka.version>
         
         <!-- SonarQube properties -->
         <sonar.projectName>ToroDB</sonar.projectName>
@@ -106,12 +106,18 @@
                 <version>2.8.1</version>
             </dependency>
             <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.24</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <type>test-jar</type>
                 <version>2.8.1</version>
                 <scope>test</scope>
             </dependency>
+            
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -174,16 +180,17 @@
                 <artifactId>bson</artifactId>
                 <version>${mongodriver.version}</version>
             </dependency>
-<!--            <dependency>
-                <groupId>org.mongodb</groupId>
-                <artifactId>mongodb-driver-core</artifactId>
-                <version>${mongodriver.version}</version>
+            
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>3.8.7</version>
             </dependency>
             <dependency>
-                <groupId>org.mongodb</groupId>
-                <artifactId>mongo-java-driver</artifactId>
-                <version>${mongodriver.version}</version>
-            </dependency>-->
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-meta</artifactId>
+                <version>3.8.7</version>
+            </dependency>
             
             <dependency>
                 <groupId>com.google.code.findbugs</groupId>
@@ -205,6 +212,31 @@
                 <version>4.12</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.0.0-M4</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-runner</artifactId>
+                <version>1.0.0-M4</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.0.0-M4</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>5.0.0-M4</version>
+                <scope>test</scope>
+            </dependency>
+            
             <dependency>
                 <groupId>com.google.truth</groupId>
                 <artifactId>truth</artifactId>
@@ -269,7 +301,7 @@
             <dependency>
                 <groupId>org.scala-lang</groupId>
                 <artifactId>scala-library</artifactId>
-                <version>2.12.1</version>
+                <version>2.12.2</version>
             </dependency>
             <dependency>
                 <groupId>com.typesafe</groupId>
@@ -369,16 +401,29 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>strict-dependencies-warning</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <fail>false</fail>
+                            <rules>
+                                <dependencyConvergence/>
+                            </rules>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>enforce-dependencies</id>
                         <goals>
                             <goal>enforce</goal>
                         </goals>
                         <configuration>
                             <rules>
-                                <dependencyConvergence/>
+                                <requireUpperBoundDeps/>
                                 <requireReleaseDeps>
                                     <message>Artifacts must not depend on external snapshot!</message>
                                     <excludes>
+                                        <exclude>com.eightkdata*:*</exclude>
                                         <exclude>com.8kdata*:*</exclude>
                                         <exclude>com.torodb*:*</exclude>
                                     </excludes>
@@ -413,6 +458,9 @@
                         <configuration>
                             <linkXRef>false</linkXRef>
                             <violationSeverity>error</violationSeverity>
+                            <sourceDirectories>
+                                <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                            </sourceDirectories>
                         </configuration>
                         <goals>
                             <goal>check</goal>
@@ -423,7 +471,7 @@
                     <dependency>
                         <groupId>com.puppycrawl.tools</groupId>
                         <artifactId>checkstyle</artifactId>
-                        <version>7.3</version>
+                        <version>7.7</version>
                     </dependency>
                     <dependency>
                         <groupId>com.torodb</groupId>
@@ -452,33 +500,6 @@
                 </executions>
             </plugin>
             
-            <!-- Copy a default log4j2-test config file on test-classes -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.0.0</version>
-                <executions>
-                    <execution>
-                        <id>unpack-log4j-test</id>
-                        <phase>generate-test-resources</phase>                        
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.torodb</groupId>
-                                    <artifactId>build-resources</artifactId>
-                                    <version>${torodb.build.resources.version}</version>                            
-                                </artifactItem>
-                            </artifactItems>
-                            <includes>log4j2-test.*</includes>
-                            <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
-                            <overWriteIfNewer>false</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
         <pluginManagement>
             <plugins>
@@ -682,6 +703,40 @@
                                             <message>Artifacts on master branch must not be snapshot!</message>
                                         </requireReleaseVersion>
                                     </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>test-wider-log</id>
+            <build>
+                <plugins>
+                    <!-- Copy a default log4j2-test config file on test-classes -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>unpack-log4j-test</id>
+                                <phase>generate-test-resources</phase>                        
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.torodb</groupId>
+                                            <artifactId>build-resources</artifactId>
+                                            <version>${torodb.build.resources.version}</version>                            
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <includes>log4j2-test.*</includes>
+                                    <outputDirectory>${project.build.directory}/test-classes</outputDirectory>
+                                    <overWriteIfNewer>false</overWriteIfNewer>
                                 </configuration>
                             </execution>
                         </executions>
